@@ -1,0 +1,39 @@
+1.
+function fx = funx(UR)
+global E i0 a R
+i0=1; a=1; E=1; R=1;
+fx =i0*(exp(a*(E-UR))-1)-UR/R;
+
+
+2.
+function fx = fund(UR)
+global E i0 a R
+fx = -1/R - a*i0*exp(a*(E -UR));
+
+
+3.
+function x = newmet5(x,epsilon)
+if nargin == 0
+    x = 0; epsilon=1e-3
+end
+delta = funx(x)/fund(x);
+%epsilon = 1e-3;
+while abs(delta)>epsilon
+    delta = funx(x)/fund(x);
+    x = x-delta;
+end
+
+
+4.
+function lab5_demo
+global E i0 a R
+i0=1; a=1;
+R=1;
+t = 0:0.01:1;
+Et = 100*cos(2*pi*3*t);
+URt= []
+for E = Et
+    UR = newmet5;
+    URt =[URt,UR]
+end
+plot(t,Et,t,URt)
